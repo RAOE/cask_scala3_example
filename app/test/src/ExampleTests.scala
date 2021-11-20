@@ -1,5 +1,7 @@
 package app
-import scala.io.undertow.Undertow
+import io.undertow.Undertow
+
+import utest._
 
 object ExampleTests extends TestSuite{
   def withServer[T](example: cask.main.Main)(f: String => T): T = {
@@ -14,18 +16,14 @@ object ExampleTests extends TestSuite{
     res
   }
 
-  val tests = Tests {
-    test("MinimalApplication") - withServer(MinimalApplication) { host =>
-      val success = requests.get(host)
-
-      success.text() ==> "Hello World!"
-      success.statusCode ==> 200
-
-      requests.get(s"$host/doesnt-exist", check = false).statusCode ==> 404
-
-      requests.post(s"$host/do-thing", data = "hello").text() ==> "olleh"
-
-      requests.delete(s"$host/do-thing", check = false).statusCode ==> 405
+  val tests = Tests{
+    test("HttpMethods") - withServer(HttpMethods){ host =>
+      requests.post(s"$host/login").text() ==> "do_the_login"
+      requests.get(s"$host/login").text() ==> "show_the_login_form"
+      requests.put(s"$host/login", check = false).statusCode ==> 405
+      requests.delete(s"$host/session").text() ==> "delete_the_session"
+      requests.get.copy(verb="secretmethod")(s"$host/session").text() ==> "security_by_obscurity"
+      requests.options(s"$host/api").text() ==> "allow_cors"
     }
   }
 }
