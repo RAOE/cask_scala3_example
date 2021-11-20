@@ -1,8 +1,8 @@
-
+import mill._, scalalib._
 
 
 object app extends ScalaModule {
-  def scalaVersion = "2.13.5"
+  def scalaVersion = "3.0.0"
 
   def ivyDeps = Agg(
     ivy"com.lihaoyi::cask:0.8.0",
