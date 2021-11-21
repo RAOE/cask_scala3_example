@@ -45,16 +45,8 @@ object HttpMethods extends cask.MainRoutes {
     val token = JwtUpickle.encode(claim, key, algo)
     // token: String = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3OTExMjMyNjUsImlhdCI6MTYzMzMzODUwNX0.isV-bVHyCiM0_IVAUQUUx-yByXXRWJFGN1T9RCKYcL4"
 
-    JwtUpickle.decodeJson(token, key, Seq(JwtAlgorithm.HS256))
-    // res1: util.Try[ujson.Value] = Success(
-    //   value = Obj(
-    //     value = LinkedHashMap(
-    //       "exp" -> Num(value = 1.791123265E9),
-    //       "iat" -> Num(value = 1.633338505E9)
-    //     )
-    //   )
-    // )
-    JwtUpickle.decode(token, key, Seq(JwtAlgorithm.HS256))
+    var result = JwtUpickle.decode(token, key, Seq(JwtAlgorithm.HS256))
+    printf("result is %s .\n",result)
     // res1: util.Try[(String, String, String)] = Success(
     //   value = (
     //     "{\"typ\":\"JWT\",\"alg\":\"HS256\"}",
