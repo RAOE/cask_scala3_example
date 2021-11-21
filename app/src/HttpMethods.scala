@@ -54,6 +54,7 @@ object HttpMethods extends cask.MainRoutes {
     //     "oG3iKnAvj_OKCv0tchT90sv2IFVeaREgvJmwgRcXfkI"
     token
   }
-
+  override
+  def port: Int = 80
   initialize()
 }
